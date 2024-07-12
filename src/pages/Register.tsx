@@ -6,7 +6,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query"
 import { AUTH, BASE_URL } from "../api/api";
 import { useToast } from '@chakra-ui/react'
@@ -15,18 +15,20 @@ import { jwtDecode } from "jwt-decode";
 import { profileState } from "../store/profile.recoil";
 import { useRecoilState, } from "recoil";
 import { color } from "../constants/constants";
-const apiCall = (data) => axios.post(BASE_URL+AUTH,data);
+import React from "react";
+import { decoded_data,error_response, profile, register_data } from "../types/types";
+
+const registerApi = (data : register_data) => axios.post(BASE_URL+AUTH,data);
 
 const Register = () => {
   const navigate = useNavigate();
-  const [, setProfile] = useRecoilState(profileState);
-
+  const [, setProfile] = useRecoilState<profile>(profileState);
   const toast = useToast();
 
-  const {mutate : userRegister , isLoading : isUserSiging} = useMutation(apiCall, {
+  const {mutate : userRegister , isLoading : isUserSiging} = useMutation(registerApi, {
     onSuccess: (response) => {
       const {accessToken} = response?.data || "";
-      const decoded = jwtDecode(accessToken);
+      const decoded : decoded_data = jwtDecode(accessToken);
       setProfile({
         userName : decoded?.userName,
         email : decoded?.email,
@@ -36,14 +38,14 @@ const Register = () => {
       sessionStorage.setItem("jwt",accessToken)
       navigate("/home",{replace : true});
     },
-    onError : (error) => {
-      console.log(error?.response?.data?.message);
+    onError : (error:error_response) => {
+      const errorMessage : string = error?.response?.data?.message || "Server Error";
       toast({
         position: 'bottom-right',
         isClosable: true,
         render: () => (
-          <Box color="white" p={3} bg={color.DANGER}>
-          {error?.response?.data?.message || "Server Error"}
+        <Box color="white" p={3} bg={color.DANGER}>
+          {errorMessage}
         </Box>
         )
       })
@@ -89,9 +91,8 @@ const Register = () => {
   });
 
   const { errors } = formState;
-  const onSubmit = (data) => {
-    delete data.confirmPassword;
-    console.log(data)
+  const onSubmit = (data : register_data) => {
+    delete data?.confirmPassword;
     userRegister(data);
   };
 
@@ -99,7 +100,7 @@ const Register = () => {
   return (
     <Flex height="100vh" w="100vw" justifyContent="center" alignItems="center">
       <Flex
-       w={{base : "100%" , sm:"auto"}}
+        w={{base : "100%" , sm:"auto"}}
         p="1.25rem"
         boxShadow={{base : "none",sm: "rgba(0, 0, 0, 0.1) 0px 4px 12px"}}
         flexDirection="column"
@@ -124,7 +125,7 @@ const Register = () => {
                   fields={field}
                   placeholder="Enter your Name"
                   isError={!!errors?.userName}
-                  helperText={errors?.userName?.message}
+                  helperText={errors?.userName?.message || ""}
                   onBlur={() => trigger("userName")}
                 />
               )}
@@ -140,7 +141,7 @@ const Register = () => {
                   fields={field}
                   placeholder="Enter your Email"
                   isError={!!errors?.email}
-                  helperText={errors?.email?.message}
+                  helperText={errors?.email?.message || ""}
                   onBlur={() => trigger("email")}
                 />
               )}
@@ -156,7 +157,7 @@ const Register = () => {
                   fields={field}
                   placeholder="Enter your Password"
                   isError={!!errors?.password}
-                  helperText={errors?.password?.message}
+                  helperText={errors?.password?.message || ""}
                   onBlur={() => trigger("password")}
                 />
               )}
@@ -172,7 +173,7 @@ const Register = () => {
                   fields={field}
                   placeholder="re-enter your Password"
                   isError={!!errors?.confirmPassword}
-                  helperText={errors?.confirmPassword?.message}
+                  helperText={errors?.confirmPassword?.message || ""}
                   onBlur={() => trigger("confirmPassword")}
                 />
               )}

@@ -13,19 +13,20 @@ import { jwtDecode } from "jwt-decode";
 import { useMutation } from "react-query";
 import { useRecoilState } from "recoil";
 import { color } from "../constants/constants";
-
-const apiCall = (data) => axios.put(BASE_URL+AUTH,data);
+import React from "react";
+import { decoded_data, error_response, login_data, profile } from "../types/types";
+const loginApi = (data:login_data) => axios.put(BASE_URL+AUTH,data);
 
 const Login = () => {
   const navigate = useNavigate();
-  const [, setProfile] = useRecoilState(profileState);
+  const [, setProfile] = useRecoilState<profile>(profileState);
 
   const toast = useToast();
 
-  const {mutate : userLogin , isLoading : isUserLoging} = useMutation(apiCall, {
+  const {mutate : userLogin , isLoading : isUserLoging} = useMutation(loginApi, {
     onSuccess: (response) => {
       const {accessToken} = response?.data || "";
-      const decoded = jwtDecode(accessToken);
+      const decoded : decoded_data = jwtDecode(accessToken);
       setProfile({
         userName : decoded?.userName,
         email : decoded?.email,
@@ -35,14 +36,13 @@ const Login = () => {
       sessionStorage.setItem("jwt",accessToken);
       navigate("/home",{replace : true});
     },
-    onError : (error) => {
-      console.log(error?.response?.data?.message);
+    onError : (error:error_response) => {
       toast({
         position: 'bottom-right',
         isClosable: true,
         render: () => (
           <Box color="white" p={3} bg={color.DANGER}>
-          {error?.response?.data?.message}
+          {error?.response?.data?.message || "Server Error"}
         </Box>
         )
       })
@@ -54,7 +54,7 @@ const Login = () => {
     password: z.string().min(1,{message : "Password is required"})
   });
 
-  const { control, handleSubmit, formState, } = useForm({
+  const { control, handleSubmit, formState,trigger } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -65,7 +65,7 @@ const Login = () => {
 
   const { errors } = formState;
   
-  const onSubmit = (data) => {
+  const onSubmit = (data:login_data) => {
     userLogin(data);
   };
 
@@ -97,7 +97,8 @@ const Login = () => {
                   fields={field}
                   placeholder="Enter your Email"
                   isError={!!errors?.email}
-                  helperText={errors?.email?.message}
+                  helperText={errors?.email?.message || ""}
+                  onBlur={() => trigger("email")}
                 />
               )}
             />
@@ -111,7 +112,8 @@ const Login = () => {
                   fields={field}
                   placeholder="Enter your Password"
                   isError={!!errors?.password}
-                  helperText={errors?.password?.message}
+                  helperText={errors?.password?.message || ""}
+                  onBlur={() => trigger("password")}
                 />
               )}
             />

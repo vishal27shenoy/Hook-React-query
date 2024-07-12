@@ -1,8 +1,7 @@
 import React ,{useState}from "react";
-import { Flex, Text, Button, Grid, GridItem } from "@chakra-ui/react";
+import {  Grid, GridItem } from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import Main from "./Main"
 import { Outlet } from "react-router-dom";
 const Home = () => {
     const [sidebar,setSidebar] = useState(false);

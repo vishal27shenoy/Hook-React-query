@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { Flex, Text, Button, Image, Box } from "@chakra-ui/react";
-import { CiSearch, CiSun } from "react-icons/ci";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { PiMoonThin } from "react-icons/pi";
+import { Flex, Text, Box } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { themeState } from "../store/theme.store";
 import { color } from "../constants/constants";
@@ -44,17 +41,16 @@ const sidebarData = [
   },
 ];
 const Sidebar = ({ sidebar }) => {
-  const [theme, setTheme] = useRecoilState(themeState);
-  const [currentTab, setCurrentTab] = useState();
+  const [theme, setTheme] = useRecoilState<string>(themeState);
+  const [currentTab, setCurrentTab] = useState<string>();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(isOpen, onOpen, onClose);
-  const profileImg =
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+  const profileImg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
   useEffect(() => {
-    const tab = location.href.split("/");
+    const tab  = location.href.split("/");
     setCurrentTab(`/${tab[tab.length - 1]}`);
   }, []);
+
   return (
     <Flex
       flexDirection="column"
@@ -82,7 +78,7 @@ const Sidebar = ({ sidebar }) => {
                 background: theme === "dark" ? color.DARK : color.LIGHT_HOVER,
               }}
               px="1.3rem"
-              color={currentTab === item.to && color.HIGHLIGHT}
+              color={currentTab === item.to ? color.HIGHLIGHT : theme === "dark" ? color.LIGHT_MODE : color.DARK}
             >
               <Flex alignItems="center" mr="1.3rem">
                 <Icon as={item.icon} h="1.125rem" w="1.125rem"/>
@@ -113,7 +109,7 @@ const Sidebar = ({ sidebar }) => {
         </Box>
       </Flex>
 
-      <CustomModal isOpen={isOpen} onClose={onClose} h="1.125rem" w="1.125rem"/>
+      <CustomModal isOpen={isOpen} onClose={onClose}/>
     </Flex>
   );
 };

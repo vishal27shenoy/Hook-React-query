@@ -1,11 +1,12 @@
-import { Flex, Text, Switch, Icon, Box } from "@chakra-ui/react";
+import { Flex, Switch, Icon, Box } from "@chakra-ui/react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useRecoilState } from "recoil";
 import { color } from "../constants/constants";
 import { themeState } from "../store/theme.store";
 import { CiMenuFries } from "react-icons/ci";
-
-const Navbar = ({ setSidebar, sidebar }) => {
+import React,{FC} from "react";
+import { sidebar_props } from "../types/types";
+const Navbar : FC<sidebar_props> = ({ setSidebar, sidebar }) => {
   const [theme, setTheme] = useRecoilState(themeState);
   return (
     <Flex

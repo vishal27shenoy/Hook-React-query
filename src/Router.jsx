@@ -2,7 +2,7 @@ import {Routes,Route} from "react-router-dom"
 import Login from './pages/Login'
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import {ReactQueryDevtools} from 'react-query/devtools'
+import {ReactQueryDevtools} from 'react-query/devtools';
 import Create from "./pages/Create";
 import History from "./pages/History";
 import Edited from "./pages/Edited";
