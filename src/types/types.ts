@@ -1,4 +1,3 @@
-import { object } from "prop-types";
 import { IconType } from 'react-icons';
 import React ,{FocusEventHandler}from "react";
 export interface register_data {
