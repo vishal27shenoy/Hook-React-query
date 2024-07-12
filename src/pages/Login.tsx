@@ -129,7 +129,7 @@ const Login = () => {
         <Flex flexDirection={"column"} alignItems="center">
           <Text fontSize="0.75rem">or</Text>
           <Text fontSize="0.75rem">
-            New Here ? <Link to="/register">Register</Link>
+            New Here ? <Link to="/">Register</Link>
           </Text>
         </Flex>
       </Flex>
