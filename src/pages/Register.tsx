@@ -36,7 +36,7 @@ const Register = () => {
         _id : decoded?._id,
       });
       sessionStorage.setItem("jwt",accessToken)
-      navigate("/home",{replace : true});
+      navigate("/create",{replace : true});
     },
     onError : (error:error_response) => {
       const errorMessage : string = error?.response?.data?.message || "Server Error";
