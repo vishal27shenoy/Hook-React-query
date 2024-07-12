@@ -8,6 +8,7 @@ import History from "./pages/History";
 import Edited from "./pages/Edited";
 import Settings from "./pages/Settings";
 import Deleted from "./pages/Deleted";
+import React from "react";
 const Router = () => {
   return (
     <div>
