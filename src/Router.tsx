@@ -9,11 +9,12 @@ import Edited from "./pages/Edited";
 import Settings from "./pages/Settings";
 import Deleted from "./pages/Deleted";
 import React from "react";
+import NotFound from "./pages/NotFound";
 const Router = () => {
   return (
     <div>
     <Routes>
-        <Route path='/register' element={<Register/>}/>
+        <Route path='/' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route  element={<Home/>}>
           <Route path="/create" element={<Create/>}/>
@@ -21,9 +22,10 @@ const Router = () => {
           <Route path="/edited" element={<Edited/>}/>
           <Route path="/deleted" element={<Deleted/>}/>
           <Route path="/settings" element={<Settings/>}/>
+          <Route path="*" element={<NotFound/>}/>
         </Route>
     </Routes>
-    {/* <ReactQueryDevtools/> */}
+    <ReactQueryDevtools/>
     </div>
   )
 }

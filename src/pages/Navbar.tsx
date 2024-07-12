@@ -1,20 +1,19 @@
 import { Flex, Switch, Icon, Box } from "@chakra-ui/react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useRecoilState } from "recoil";
-import { color } from "../constants/constants";
 import { themeState } from "../store/theme.store";
 import { CiMenuFries } from "react-icons/ci";
 import React,{FC} from "react";
-import { sidebar_props } from "../types/types";
-const Navbar : FC<sidebar_props> = ({ setSidebar, sidebar }) => {
+import { sidebarProps } from "../types/types";
+const Navbar : FC<sidebarProps> = ({ setSidebar, sidebar }) => {
   const [theme, setTheme] = useRecoilState(themeState);
   return (
     <Flex
       h="3.75rem"
       w="100%"
       alignItems="center"
-      bg={theme === "dark" ? color.DARK_MODE : color.LIGHT_MODE}
-      color={theme === "dark" ? color.LIGHT_MODE : color.DARK_MODE}
+      bg={theme === "dark" ? "color.darkMode" : "color.lightMode"}
+      color={theme === "dark" ?  "color.lightMode" : "color.darkMode"}
       px="1.25rem"
       borderBottom="solid lightgray 1px"
     >

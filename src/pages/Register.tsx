@@ -1,5 +1,5 @@
 import { Flex, Text, Button, Box } from "@chakra-ui/react";
-import CustomInput from "../common components/Input";
+import CustomInput from "../components/Input";
 import { CiUser } from "react-icons/ci";
 import { AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -16,9 +16,9 @@ import { profileState } from "../store/profile.recoil";
 import { useRecoilState, } from "recoil";
 import { color } from "../constants/constants";
 import React from "react";
-import { decoded_data,error_response, profile, register_data } from "../types/types";
+import {  decodedData, errorResponse, profile, registerData } from "../types/types";
 
-const registerApi = (data : register_data) => axios.post(BASE_URL+AUTH,data);
+const registerApi = (data : registerData) => axios.post(BASE_URL+AUTH,data);
 
 const Register = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Register = () => {
   const {mutate : userRegister , isLoading : isUserSiging} = useMutation(registerApi, {
     onSuccess: (response) => {
       const {accessToken} = response?.data || "";
-      const decoded : decoded_data = jwtDecode(accessToken);
+      const decoded : decodedData = jwtDecode(accessToken);
       setProfile({
         userName : decoded?.userName,
         email : decoded?.email,
@@ -38,13 +38,13 @@ const Register = () => {
       sessionStorage.setItem("jwt",accessToken)
       navigate("/create",{replace : true});
     },
-    onError : (error:error_response) => {
+    onError : (error:errorResponse) => {
       const errorMessage : string = error?.response?.data?.message || "Server Error";
       toast({
         position: 'bottom-right',
         isClosable: true,
         render: () => (
-        <Box color="white" p={3} bg={color.DANGER}>
+        <Box color="white" p={3} bg="color.danger">
           {errorMessage}
         </Box>
         )
@@ -91,7 +91,7 @@ const Register = () => {
   });
 
   const { errors } = formState;
-  const onSubmit = (data : register_data) => {
+  const onSubmit = (data : registerData) => {
     delete data?.confirmPassword;
     userRegister(data);
   };
@@ -183,7 +183,7 @@ const Register = () => {
             </Button>
           </Flex>
         </form>
-        <Flex flexDirection={"column"} alignItems="center">
+        <Flex flexDirection="column" alignItems="center">
           <Text fontSize="0.75rem">or</Text>
           <Text fontSize="0.75rem">
             Already have an account ? <Link to="/login">Login</Link>

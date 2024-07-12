@@ -1,26 +1,26 @@
 import { IconType } from 'react-icons';
 import React ,{FocusEventHandler}from "react";
-export interface register_data {
+export interface registerData {
     userName : string;
     email : string;
     password : string;
     confirmPassword? : string;
 }
 
-export interface decoded_data  {
+export interface decodedData  {
     userName : string;
     email : string;
     token : string;
     _id : string;
 }
 
-export interface error_type {
+export interface errorType {
     name: string;
     message: string;
     stack?: string;
 }
 
-export interface custom_input {
+export interface customInput {
     title : string,
     icon : IconType,
     placeholder : string,
@@ -30,22 +30,23 @@ export interface custom_input {
     onBlur : FocusEventHandler<HTMLInputElement>,
 }
 
-export interface modal_type  {
+export interface modalType  {
     isOpen : boolean;
     onClose : () => void;
+    handleData : (values:userTodo) => void;
 }
 
-export interface login_data {
+export interface loginData {
     email : string;
     password : string
 }
 
-export interface sidebar_props {
+export interface sidebarProps {
     setSidebar : React.Dispatch<React.SetStateAction<boolean>>;
     sidebar : boolean; 
 }
 
-export interface error_response {
+export interface errorResponse {
     response?: {
       data?: {
         message?: string;
@@ -58,4 +59,10 @@ export interface profile {
     email : string;
     token : string;
     _id : string;
+}
+
+
+export interface userTodo {
+    title :string;
+    description : string;
 }

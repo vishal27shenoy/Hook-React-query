@@ -6,11 +6,12 @@ import Router from "./Router";
 import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient();
 import {RecoilRoot} from "recoil";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+import { theme } from "./constants/themes";
+import React from "react";
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <BrowserRouter>
           <Router />
         </BrowserRouter>

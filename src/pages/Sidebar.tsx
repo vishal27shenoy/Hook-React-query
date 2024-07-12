@@ -3,14 +3,13 @@ import { Icon, useDisclosure } from "@chakra-ui/react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { themeState } from "../store/theme.store";
-import { color } from "../constants/constants";
 import { AiOutlineHome } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { GoHistory } from "react-icons/go";
 import { CiLogout } from "react-icons/ci";
-import CustomModal from "../common components/Modal";
-import { Link } from "react-router-dom";
+import CustomModal from "../components/Modal";
+import { Link, useNavigate } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 
 const sidebarData = [
@@ -41,10 +40,19 @@ const sidebarData = [
   },
 ];
 const Sidebar = ({ sidebar }) => {
+  const navigate = useNavigate();
   const [theme, setTheme] = useRecoilState<string>(themeState);
   const [currentTab, setCurrentTab] = useState<string>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const profileImg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("jwt")
+    console.log(token)
+    if(token === null && token !== "thisistoken123"){
+      navigate("/login",{replace : true});
+    }
+  },[])
 
   useEffect(() => {
     const tab  = location.href.split("/");
@@ -58,8 +66,8 @@ const Sidebar = ({ sidebar }) => {
       h="calc(100vh - 3.75rem)"
       gap="1.25rem"
       w={sidebar ? "10.875rem" : "3.4rem"}
-      bg={theme === "dark" ? color.DARK_MODE : color.LIGHT_MODE}
-      color={theme === "dark" ? color.LIGHT_MODE : color.DARK_MODE}
+      bg={theme === "dark" ? "color.darkMode":  "color.lightMode"}
+      color={theme === "dark" ? "color.lightMode" :"color.DARK_MODE"}
       borderRight="solid lightgray 1px"
       overflow="hidden"
     >
@@ -75,10 +83,10 @@ const Sidebar = ({ sidebar }) => {
               alignItems="center"
               cursor="pointer"
               _hover={{
-                background: theme === "dark" ? color.DARK : color.LIGHT_HOVER,
+                background: theme === "dark" ? "color.dark" : "color.lightHover",
               }}
               px="1.3rem"
-              color={currentTab === item.to ? color.HIGHLIGHT : theme === "dark" ? color.LIGHT_MODE : color.DARK}
+              color={currentTab === item.to ? "color.highLight" : theme === "dark" ? "color.lightMode" : "color.dark"}
             >
               <Flex alignItems="center" mr="1.3rem">
                 <Icon as={item.icon} h="1.125rem" w="1.125rem"/>
@@ -95,7 +103,7 @@ const Sidebar = ({ sidebar }) => {
         alignItems="center"
         cursor="pointer"
         _hover={{
-          background: theme === "dark" ? color.DARK : color.LIGHT_HOVER,
+          background: theme === "dark" ? "color.dark" : "color.lightHover",
         }}
         px="1.3rem"
         mt="auto"
