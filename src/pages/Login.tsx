@@ -32,6 +32,7 @@ const Login = () => {
         token : accessToken,
         _id : decoded?._id,
       });
+      sessionStorage.setItem("userDetail",JSON.stringify(decoded));
       sessionStorage.setItem("jwt",accessToken);
       navigate("/create",{replace : true});
     },
@@ -49,7 +50,7 @@ const Login = () => {
   })
 
   const schema = z.object({
-    email: z.string({message : "Email is required"}).email({ message: "Enter a valid email" }),
+    email: z.string({message : "Email is required"}).email({ message: "Enter a valid email" }).toLowerCase(),
     password: z.string().min(1,{message : "Password is required"})
   });
 
@@ -103,6 +104,7 @@ const Login = () => {
                   isError={!!errors?.email}
                   helperText={errors?.email?.message || ""}
                   onBlur={() => trigger("email")}
+                  type="text"
                 />
               )}
             />
@@ -118,6 +120,7 @@ const Login = () => {
                   isError={!!errors?.password}
                   helperText={errors?.password?.message || ""}
                   onBlur={() => trigger("password")}
+                  type="password"
                 />
               )}
             />

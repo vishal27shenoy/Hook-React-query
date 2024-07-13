@@ -117,7 +117,7 @@ const Sidebar = ({ sidebar }) => {
         </Box>
       </Flex>
 
-      <CustomModal isOpen={isOpen} onClose={onClose}/>
+      <CustomModal isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };

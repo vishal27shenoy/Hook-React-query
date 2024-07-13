@@ -12,7 +12,6 @@ import React,{FC} from "react";
 import { useNavigate } from "react-router-dom";
 import { themeState } from "../store/theme.store";
 import { useRecoilState } from "recoil";
-import { color } from "../constants/constants";
 import { modalType } from "../types/types";
 
 const CustomModal : FC<modalType>  = ({ isOpen, onClose }) => {

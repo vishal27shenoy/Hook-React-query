@@ -60,8 +60,8 @@ const Register = () => {
         .string()
         .min(1, { message: "Name is required" })
         .min(4, { message: "Length must be at least 4" })
-        .max(10, { message: "must be less than 10" }),
-      email: z.string().email({ message: "Enter a valid email" }),
+        .max(10, { message: "must be less than 10" }).toLowerCase(),
+      email: z.string().email({ message: "Enter a valid email" }).toLowerCase(),
       password: z
         .string()
         .min(8, { message: "Password length must be 8" })
@@ -127,6 +127,7 @@ const Register = () => {
                   isError={!!errors?.userName}
                   helperText={errors?.userName?.message || ""}
                   onBlur={() => trigger("userName")}
+                  type="text"
                 />
               )}
             />
@@ -143,6 +144,7 @@ const Register = () => {
                   isError={!!errors?.email}
                   helperText={errors?.email?.message || ""}
                   onBlur={() => trigger("email")}
+                  type="text"
                 />
               )}
             />
@@ -159,6 +161,7 @@ const Register = () => {
                   isError={!!errors?.password}
                   helperText={errors?.password?.message || ""}
                   onBlur={() => trigger("password")}
+                  type="password"
                 />
               )}
             />
@@ -175,6 +178,7 @@ const Register = () => {
                   isError={!!errors?.confirmPassword}
                   helperText={errors?.confirmPassword?.message || ""}
                   onBlur={() => trigger("confirmPassword")}
+                  type="password"
                 />
               )}
             />

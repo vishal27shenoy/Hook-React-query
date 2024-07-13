@@ -28,6 +28,7 @@ export interface customInput {
     fields : object,
     helperText : string,
     onBlur : FocusEventHandler<HTMLInputElement>,
+    type : string;
 }
 
 export interface modalType  {
